@@ -1,0 +1,69 @@
+version: "3"
+
+# Run 'docker compose up' to start all containers
+
+# Default Network
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  userdata:
+  postdata:
+
+services:
+  user-db:
+    container_name: docker-database-user
+    image: postgres:12
+    restart: always
+    env_file:
+      - .env.production
+    ports:
+      - 5433:5433
+    networks:
+      - app-network
+    volumes:
+      - userdata:/var/lib/postgresql/data
+
+  post-db:
+    container_name: docker-database-post
+    image: postgres:12
+    restart: always
+    env_file:
+      - .env.production
+    ports:
+      - 5432:5432
+    networks:
+      - app-network
+    volumes:
+      - postdata:/var/lib/postgresql/data
+
+  user-api:
+    container_name: api-user
+    build: # We will change this to image when we have them hosted
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      # HOST:DOCKER
+      - 8081:8081
+    networks:
+      - app-network
+    env_file:
+      - .env.production
+    depends_on:
+      - user-db
+
+  post-api:
+    container_name: api-post
+    build: # We will change this to image when we have them hosted
+      dockerfile: Dockerfile
+      context: .
+    ports:
+      - 8080:8080
+    networks:
+      - app-network
+    env_file:
+      - .env.production
+    depends_on:
+      - post-db
+
