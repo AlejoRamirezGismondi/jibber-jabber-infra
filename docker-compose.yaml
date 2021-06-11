@@ -1,8 +1,5 @@
 version: "3"
 
-# Run 'docker compose up' to start all containers
-
-# Default Network
 networks:
   app-network:
     driver: bridge
@@ -19,7 +16,7 @@ services:
     env_file:
       - .env.production
     ports:
-      - 5433:5433
+      - 5433:5432
     networks:
       - app-network
     volumes:
@@ -40,12 +37,11 @@ services:
 
   user-api:
     container_name: api-user
-    build: # We will change this to image when we have them hosted
+    build:
       dockerfile: Dockerfile
-      context: .
+      context: ./user
     ports:
-      # HOST:DOCKER
-      - 8081:8081
+      - 8081:8080
     networks:
       - app-network
     env_file:
@@ -55,9 +51,9 @@ services:
 
   post-api:
     container_name: api-post
-    build: # We will change this to image when we have them hosted
+    build:
       dockerfile: Dockerfile
-      context: .
+      context: ./post
     ports:
       - 8080:8080
     networks:
@@ -66,4 +62,11 @@ services:
       - .env.production
     depends_on:
       - post-db
-
+  
+  web:
+    container_name: web
+    build:
+      dockerfile: Dockerfile
+      context: ./web
+    ports: 
+      - 3000:80
