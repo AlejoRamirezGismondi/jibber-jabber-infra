@@ -63,13 +63,13 @@ services:
 #    depends_on:
 #      - post-db
 
-#  web:
-#    container_name: web-jj
-#    image: docker.pkg.github.com/alejoramirezgismondi/jibber-jabber-web/web:latest
-##    image: jibber-jabber-web/web:latest
-#    entrypoint: ["nginx", "-g", "daemon off;"]
-#    ports:
-#      - 3000:80
+  web:
+    container_name: web-jj
+    image: docker.pkg.github.com/alejoramirezgismondi/jibber-jabber-web/web:latest
+#    image: jibber-jabber-web/web:latest
+    entrypoint: ["nginx", "-g", "daemon off;"]
+    ports:
+      - 3000:80
 
   reverse-proxy:
     container_name: "jibber-jabber-reverse-proxy"
@@ -79,7 +79,7 @@ services:
       - post-db
       - user-api
 #      - post-api
-#      - web
+      - web
     ports:
       - 8080:80
     volumes:
