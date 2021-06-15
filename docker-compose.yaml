@@ -1,4 +1,4 @@
-version: "3"
+version: "3.8"
 
 networks:
   app-network:
@@ -36,10 +36,10 @@ services:
       - postdata:/var/lib/postgresql/data
 
   user-api:
-    container_name: api-user
-    build:
-      dockerfile: Dockerfile
-      context: ./user
+    container_name: api-user-jj
+    image: docker.pkg.github.com/alejoramirezgismondi/jibber-jabber-user/user:latest
+#    image: jibber-jabber-user-api:latest
+    entrypoint: ["java", "-jar", "-Dspring.profiles.active=production","/app/spring-boot-application.jar"]
     ports:
       - 8081:8080
     networks:
@@ -49,24 +49,38 @@ services:
     depends_on:
       - user-db
 
-  post-api:
-    container_name: api-post
-    build:
-      dockerfile: Dockerfile
-      context: ./post
-    ports:
-      - 8080:8080
-    networks:
-      - app-network
-    env_file:
-      - .env.production
+#  post-api:
+#    container_name: api-post-jj
+#    image: docker.pkg.github.com/alejoramirezgismondi/jibber-jabber-post/post:latest
+##    image: jibber-jabber-post-api:latest
+#    entrypoint: ["java", "-jar", "-Dspring.profiles.active=production","/app/spring-boot-application.jar"]
+#    ports:
+#      - 8082:8080
+#    networks:
+#      - app-network
+#    env_file:
+#      - .env.production
+#    depends_on:
+#      - post-db
+
+#  web:
+#    container_name: web-jj
+#    image: docker.pkg.github.com/alejoramirezgismondi/jibber-jabber-web/web:latest
+##    image: jibber-jabber-web/web:latest
+#    entrypoint: ["nginx", "-g", "daemon off;"]
+#    ports:
+#      - 3000:80
+
+  reverse-proxy:
+    container_name: "jibber-jabber-reverse-proxy"
+    image: nginx
     depends_on:
+      - user-db
       - post-db
-  
-  web:
-    container_name: web
-    build:
-      dockerfile: Dockerfile
-      context: ./web
-    ports: 
-      - 3000:80
+      - user-api
+#      - post-api
+#      - web
+    ports:
+      - 8080:80
+    volumes:
+      - ./.nginx/nginx.conf:/etc/nginx/nginx.conf
