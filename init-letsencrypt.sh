@@ -5,7 +5,7 @@ if ! [ -x "$(command -v docker-compose)" ]; then
   exit 1
 fi
 
-domains=(jibberjabber-dev.hopto.org)
+domains=(jibberjabber-prod.hopto.org)
 rsa_key_size=4096
 data_path="./data/certbot"
 email="alejo.ramirezgismondi@ing.austral.edu.ar" # Adding a valid address is strongly recommended
