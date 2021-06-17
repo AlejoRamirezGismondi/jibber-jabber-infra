@@ -77,4 +77,4 @@ docker-compose run --rm --entrypoint "\
 echo
 
 echo "### Reloading nginx ..."
-docker-compose exec jibber-jabber-reverse-proxy nginx -s reload
+docker-compose exec reverse-proxy jibber-jabber-reverse-proxy -s reload
