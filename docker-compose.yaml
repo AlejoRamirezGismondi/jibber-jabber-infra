@@ -47,7 +47,7 @@ services:
 
   reverse-proxy:
     container_name: "jibber-jabber-reverse-proxy"
-    image: nginx
+    image: nginx:1.15-alpine
     depends_on:
       web-jj:
         condition: service_started
