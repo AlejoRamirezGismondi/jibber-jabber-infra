@@ -31,14 +31,7 @@ jobs:
       - name: Deploy
         uses: fifsky/ssh-action@master
         with:
-          command: |
-            cd /jj/jibber-jabber-infra
-            docker-compose down
-            echo "Server down"
-            git pull
-            echo "Git pull"
-            docker-compose up
-            echo "Server up"
+          command: ~/jj/jibber-jabber-infra/restart.sh
           host: ${{ env.VM_IP }}
           user: ${{ env.VM_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
