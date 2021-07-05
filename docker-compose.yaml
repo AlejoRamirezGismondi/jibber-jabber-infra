@@ -52,7 +52,7 @@ services:
 
   api-message-jj:
     container_name: api-message-jj
-    image: docker.pkg.github.com/alejoramirezgismondi/jibber-jabber-message/message-dev:latest
+    image: docker.pkg.github.com/alejoramirezgismondi/jibber-jabber-message/message-prod:latest
     entrypoint: [ "java", "-jar", "-Dspring.profiles.active=production","/app/spring-boot-application.jar" ]
     env_file:
       - .env.production
