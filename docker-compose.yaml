@@ -3,6 +3,7 @@ version: "3.8"
 volumes:
   userdata:
   postdata:
+  messagedata:
 
 services:
   user-db:
@@ -30,7 +31,7 @@ services:
     env_file:
       - .env.message-production
     volumes:
-      - postdata:/var/lib/postgresql/data
+      - messagedata:/var/lib/postgresql/data
 
   api-user-jj:
     container_name: api-user-jj
