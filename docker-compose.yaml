@@ -10,7 +10,7 @@ services:
     image: postgres:12
     restart: always
     env_file:
-      - .env.production
+      - .env.user-production
     volumes:
       - userdata:/var/lib/postgresql/data
 
@@ -19,7 +19,7 @@ services:
     image: postgres:12
     restart: always
     env_file:
-      - .env.production
+      - .env.post-production
     volumes:
       - postdata:/var/lib/postgresql/data
 
@@ -28,7 +28,7 @@ services:
     image: postgres:12
     restart: always
     env_file:
-      - .env.production
+      - .env.message-production
     volumes:
       - postdata:/var/lib/postgresql/data
 
@@ -37,7 +37,7 @@ services:
     image: docker.pkg.github.com/alejoramirezgismondi/jibber-jabber-user/user-dev:latest
     entrypoint: ["java", "-jar", "-Dspring.profiles.active=production","/app/spring-boot-application.jar"]
     env_file:
-      - .env.production
+      - .env.user-production
     depends_on:
       - user-db
 
@@ -46,7 +46,7 @@ services:
     image: docker.pkg.github.com/alejoramirezgismondi/jibber-jabber-post/post-dev:latest
     entrypoint: ["java", "-jar", "-Dspring.profiles.active=production","/app/spring-boot-application.jar"]
     env_file:
-      - .env.production
+      - .env.post-production
     depends_on:
       - post-db
 
@@ -55,7 +55,7 @@ services:
     image: docker.pkg.github.com/alejoramirezgismondi/jibber-jabber-message/message-dev:latest
     entrypoint: [ "java", "-jar", "-Dspring.profiles.active=production","/app/spring-boot-application.jar" ]
     env_file:
-      - .env.production
+      - .env.message-production
     depends_on:
       - message-db
 
